@@ -1,5 +1,6 @@
 #ifndef controller_h
 #define controller_h
+
 /* Clock Frequency = 1Mhz */
 #define F_CPU 1000000UL
 
@@ -38,13 +39,33 @@
 #define setInput(button)  (DDRD  &= ~(1 << (button))) 
 #define signal(button)    ((PIND >> button) & 1)
 
-#define waitHighClock() while(!signal(AMIGA_FIRE_CLK))
-#define waitLowClock() while(signal(AMIGA_FIRE_CLK))
+#define waitHighClock() while (!signal(AMIGA_FIRE_CLK)) selectMode();
+#define waitLowClock() while((PIND & 32)) 
 
 #define signalSNES(button) ((PINB >> button) & 1)
 #define signalDIR(button) ((PINC >> button) & 1)
 
-int selectMode();
+#define direction(snesdir, amigadir) if (signalDIR(snesdir)) setHigh(amigadir); else setLow(amigadir)
+
+#define button(snesbutton, amigabutton) if (signalSNES(snesbutton)) setHigh(amigabutton); else setLow(amigabutton)
+
+#define selectMode()\
+    if (!signalSNES(SNESPAD_SELECT)) {\
+      modeSelector();\
+      return;\
+    }
+
+#define mode(button, runner)\
+    if (!signalSNES(button)) {\
+      run = &runner;\
+    }
+
+#define flash(button) setLow(button); _delay_ms(500); setHigh(button)
+
+// Singelton
+
+void (*run)();
+void modeSelector();
 
 #endif
 
