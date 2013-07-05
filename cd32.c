@@ -10,7 +10,6 @@ void runCd32() {
     while(!signal(AMIGA_SEL));
     if (signal(AMIGA_FIRE_CLK)) setHigh(AMIGA_DATA); else setLow(AMIGA_DATA);
 
-
     // In Gamepad mode...
 
     // CD32 specific buttons

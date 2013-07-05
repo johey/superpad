@@ -1,21 +1,24 @@
-#include "controller.h"
 #include "cd32.h"
 #include "joystick.h"
+#include "mouse.h"
+#include "controller.h"
 
-
-void modeSelector() {
+uint8_t modeSelector(uint8_t current) {
   while (!signalSNES(SNESPAD_SELECT)) {
-    mode(SNESPAD_X, runCd32);
-    mode(SNESPAD_Y, runJoystick);
+    if (!signalSNES(SNESPAD_X)) current = 1; // CD32
+    if (!signalSNES(SNESPAD_Y)) current = 0; // Joystick
+    if (!signalSNES(SNESPAD_A)) current = 2; // Amiga mouse
   }
+  return current;
 }
 
 int main(void) {
+  uint8_t currentMode = 0;
+
   /* B and C are all inputs, D is all output */
   DDRB = 0x00;
   DDRC = 0x00;
   DDRD = 0b11111111;
-
   PORTD = 0b11111111;
 
   /* Enable pull-up resistors of B and C */
@@ -23,10 +26,16 @@ int main(void) {
   PORTC = 0xff;
   PORTD = 0xff;
 
-  run = &runJoystick;
-  while(1) {
-    if (run == &runJoystick) runJoystick();
-    if (run == &runCd32) runCd32();
+  while (1) {
+    switch(currentMode) {
+      case 1:
+        runCd32(); break;
+      case 2:
+        runMouse(); break;
+      case 0: default:
+        runJoystick(); break;
+    }
+    currentMode = modeSelector(currentMode);
   }
 }
 
