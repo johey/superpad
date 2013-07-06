@@ -67,8 +67,10 @@
 #define setInput(button)  (DDRD  &= ~(button)) 
 #define signal(button)    (PIND & (button))
 
-#define waitHighClock() for (uint8_t i = 0xff; (!(PIND & 32)) && i; --i) selectMode()
-#define waitLowClock() for (uint8_t i = 0xff; (PIND & 32) && i; --i) selectMode()
+#define waitHighClock()\
+  for (uint8_t i = 0xff; (!(PIND & 32)) && i; --i) selectMode()
+#define waitLowClock()\
+  for (uint8_t i = 0xff; (PIND & 32) && i; --i) selectMode()
 
 #define rotateLeft(x) ((x >> 7) | (x << 1))
 #define rotateRight(x) ((x >> 1) | (x << 7))
@@ -76,17 +78,15 @@
 #define signalSNES(button) (PINB & (button))
 #define signalDIR(button) (PINC & (button))
 
-#define direction(snesdir, amigadir) if (signalDIR(snesdir)) setHigh(amigadir); else setLow(amigadir)
+#define direction(snesdir, amigadir)\
+  if (signalDIR(snesdir)) setHigh(amigadir); else setLow(amigadir)
 
-#define button(snesbutton, amigabutton) if (signalSNES(snesbutton)) setHigh(amigabutton); else setLow(amigabutton)
+#define button(snesbutton, amigabutton)\
+  if (signalSNES(snesbutton)) setHigh(amigabutton); else setLow(amigabutton)
 
-#define selectMode()\
-    if (!signalSNES(SNESPAD_SELECT)) {\
-      return;\
-    }
+#define selectMode() if (!signalSNES(SNESPAD_SELECT)) return
+
 #define abs16(val) ((val ^ (val >> 15)) - (val >> 15))
-
-#define flash(button) setLow(button); _delay_ms(100); setHigh(button)
 
 uint8_t modeSelector(uint8_t);
 

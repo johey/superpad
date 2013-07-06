@@ -23,33 +23,21 @@
 
 #define SPEED_DIVIDER 64  // 1 to 128, higher means slower
 
-//#define setupMouseMovement(state, snes, rotate)\
-//  if (!signalDIR(snes)) {\
-//    *state = rotate(*state);\
-//  }
-//  
 #define moveMouse(mask, state, pulse)\
   if (mask & *state) setHigh(pulse); else setLow(pulse);
-//
-//void move(uint8_t *stateX, uint8_t *stateY, int16_t speedX, int16_t speedY) {
-//  for (uint8_t n = abs16(speedX); n >= 0; --n) {
-//    setupMouseMovement(stateX, SNESPAD_DIR_LEFT, rotateRight);
-//    setupMouseMovement(stateX, SNESPAD_DIR_RIGHT, rotateLeft);
-//    setupMouseMovement(stateY, SNESPAD_DIR_UP, rotateRight);
-//    setupMouseMovement(stateY, SNESPAD_DIR_DOWN, rotateLeft);
-//  }
-//}
-//
+
 void clickButton(uint8_t snesbutton, uint8_t amigabutton) {
   if (!signalSNES(snesbutton)) setLow(amigabutton); else setHigh(amigabutton);
 }
 
 #define setSpeed(speed, dir1, dir2, diagonal)\
-    moving1 = moving2 = 0;\
-    if (!signalDIR(dir1)) { speed = (speed - acc < -limit ? speed : speed - acc); ++moving1; }\
-    if (!signalDIR(dir2)) { speed = (speed + acc > limit ? speed : speed + acc); ++moving2; }\
-    if (moving1 && moving2) diagonal = 1;\
-    if (!moving1 && !moving2 && i % 8 == 0) speed /= 2
+  moving1 = moving2 = 0;\
+  if (!signalDIR(dir1)) {\
+    speed = (speed - acc < -limit ? speed : speed - acc); ++moving1; }\
+  if (!signalDIR(dir2)) {\
+    speed = (speed + acc > limit ? speed : speed + acc); ++moving2; }\
+  if (moving1 && moving2) diagonal = 1;\
+  if (!moving1 && !moving2 && i % 8 == 0) speed /= 2
   
 void runMouse() {
   // Signed speed value, positive=right/down, negative=left/up

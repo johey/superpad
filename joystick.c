@@ -19,7 +19,6 @@
 #include "joystick.h"
 
 void runJoystick() {
-  flash(AMIGA_DIR_LEFT);
   setOutput(AMIGA_FIRE_CLK);
   setOutput(AMIGA_SEL);
   while (1) {
