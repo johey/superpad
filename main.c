@@ -3,17 +3,22 @@
 #include "mouse.h"
 #include "controller.h"
 
+uint8_t EEMEM savedMode;
+
 uint8_t modeSelector(uint8_t current) {
+  uint8_t old = current;
   while (!signalSNES(SNESPAD_SELECT)) {
     if (!signalSNES(SNESPAD_X)) current = 1; // CD32
     if (!signalSNES(SNESPAD_Y)) current = 0; // Joystick
     if (!signalSNES(SNESPAD_A)) current = 2; // Amiga mouse
   }
+  if (old != current)
+    eeprom_write_byte(&savedMode, current);
   return current;
 }
 
 int main(void) {
-  uint8_t currentMode = 0;
+  uint8_t currentMode = eeprom_read_byte(&savedMode);
 
   /* B and C are all inputs, D is all output */
   DDRB = 0x00;

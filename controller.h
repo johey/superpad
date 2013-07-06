@@ -66,6 +66,7 @@
     if (!signalSNES(SNESPAD_SELECT)) {\
       return;\
     }
+#define abs16(val) ((val ^ (val >> 15)) - (val >> 15))
 
 #define flash(button) setLow(button); _delay_ms(100); setHigh(button)
 
