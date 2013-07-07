@@ -8,7 +8,7 @@ With the Superpad hardware/software project, you will get a SNES joypad (or any 
 * pressing SELECT plus one of the A, B, X and Y buttons changes the mode of the joypad
 * mode Y is normal two button joystick mode where Y and B correspond to fire 1 and 2, X and A are autofire versions of the respective fire buttons, L and R are "autofire" functions for left and right direction pad (imagine yourself playing pr0no games this way ;-) )
 * mode X is CD32 joypad simulation, where all buttons are mapped to their corresponding physical location of the original CD32 controller, except for the SELECT button which still is the mode selector
-* mode A is mouse simulation, practical to have when two Superpads are connected and you temporarily need a mouse for starting a new game or booting with early boot selector. Mapping are: B=LMB, A=RMB, X=MMB, R=accelerate, B=slow down. It is actually quite convenient to control the mouse this way. You can even play Lemmings or adventure games
+* mode A is mouse simulation, practical to have when two Superpads are connected and you temporarily need a mouse for starting a new game or booting with early boot selector. Mapping are: B=LMB, A=RMB, X=MMB, R=accelerate, L=slow down. It is actually quite convenient to control the mouse this way. You can even play Lemmings or adventure games
 * currently selected mode will be saved until you change, even after power off
 
 Well, isn't this something? I have really designed the user interface and features to do exactly what I personally want. Should you have different preferences, feel free to ask me, or better, clone the project and fix it yourself.
