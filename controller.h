@@ -19,7 +19,7 @@
 #ifndef controller_h
 #define controller_h
 
-/* Clock Frequency = 1Mhz */
+/* Clock Frequency = 2Mhz */
 #define F_CPU 2000000UL
 
 #include <inttypes.h>
@@ -68,9 +68,9 @@
 #define signal(button)    (PIND & (button))
 
 #define waitHighClock()\
-  for (uint8_t i = 0xff; (!(PIND & 32)) && i; --i) selectMode()
+  while (!(PIND & 32)) selectMode()
 #define waitLowClock()\
-  for (uint8_t i = 0xff; (PIND & 32) && i; --i) selectMode()
+  while (PIND & 32) selectMode()
 
 #define rotateLeft(x) ((x >> 7) | (x << 1))
 #define rotateRight(x) ((x >> 1) | (x << 7))

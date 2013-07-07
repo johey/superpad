@@ -24,8 +24,10 @@ compile:
 flash: compile
 	avrdude -p m8 -P /dev/ttyUSB0 -c stk500v2 -U flash:w:a.out
 
+# 2MHz = lfuse:w:0xe2:m
+# 8MHz = lfuse:w:0xc4:m
 fuse:
 	avrdude -p m8 -P /dev/ttyUSB0 -c stk500v2\
       -U lfuse:w:0xe2:m\
-      -U hfuse:w:0xd9:m 
+      -U hfuse:w:0xd9:m\
 

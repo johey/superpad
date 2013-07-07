@@ -26,8 +26,8 @@ void runJoystick() {
     direction(SNESPAD_DIR_RIGHT, AMIGA_DIR_RIGHT);
     direction(SNESPAD_DIR_UP, AMIGA_DIR_UP);
     direction(SNESPAD_DIR_LEFT, AMIGA_DIR_LEFT);
-    button(SNESPAD_Y, AMIGA_FIRE_CLK);
-    button(SNESPAD_B, AMIGA_DATA);
+    button(SNESPAD_B, AMIGA_FIRE_CLK);
+    button(SNESPAD_A, AMIGA_DATA);
 
     selectMode();
   }

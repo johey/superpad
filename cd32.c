@@ -22,24 +22,32 @@
 void runCd32() {
   setInput(AMIGA_FIRE_CLK);
   setInput(AMIGA_SEL);
-
+  
   while (1) {
-    // Waiting for joystick mode
-    while(!signal(AMIGA_SEL));
-    if (signal(AMIGA_FIRE_CLK)) setHigh(AMIGA_DATA); 
-    else setLow(AMIGA_DATA);
+    while(!signal(AMIGA_SEL)) selectMode();
 
-    // In Gamepad mode...
+    // Joystick mode
+    setOutput(AMIGA_FIRE_CLK);
+    button(SNESPAD_B, AMIGA_FIRE_CLK);
+    button(SNESPAD_A, AMIGA_DATA);
+     
+    while (signal(AMIGA_SEL)) {
+      direction(SNESPAD_DIR_DOWN, AMIGA_DIR_DOWN);
+      direction(SNESPAD_DIR_RIGHT, AMIGA_DIR_RIGHT);
+      direction(SNESPAD_DIR_UP, AMIGA_DIR_UP);
+      direction(SNESPAD_DIR_LEFT, AMIGA_DIR_LEFT);
+
+      selectMode();
+    }
+
+    // Gamepad mode
+    setInput(AMIGA_FIRE_CLK);
 
     // CD32 specific buttons
     shiftData(SNESPAD_A);
-    direction(SNESPAD_DIR_DOWN, AMIGA_DIR_DOWN);
     shiftData(SNESPAD_B);
-    direction(SNESPAD_DIR_RIGHT, AMIGA_DIR_RIGHT);
     shiftData(SNESPAD_X);
-    direction(SNESPAD_DIR_UP, AMIGA_DIR_UP);
     shiftData(SNESPAD_Y);
-    direction(SNESPAD_DIR_LEFT, AMIGA_DIR_LEFT);
     shiftData(SNESPAD_RIGHT);
     shiftData(SNESPAD_LEFT);
     shiftData(SNESPAD_START);
