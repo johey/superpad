@@ -19,7 +19,7 @@
 all: compile
 
 compile:
-	avr-gcc -Wall main.c joystick.c cd32.c mouse.c -std=c99 -O1 -mmcu=atmega8
+	avr-gcc -Wall main.c joystick.c cd32.c mouse.c twoway.c -std=c99 -O1 -mmcu=atmega8
 
 flash: compile
 	avrdude -p m8 -P /dev/ttyUSB0 -c stk500v2 -U flash:w:a.out

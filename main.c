@@ -19,6 +19,7 @@
 #include "cd32.h"
 #include "joystick.h"
 #include "mouse.h"
+#include "twoway.h"
 #include "controller.h"
 
 uint8_t EEMEM savedMode;
@@ -29,6 +30,7 @@ uint8_t modeSelector(uint8_t current) {
     if (!signalSNES(SNESPAD_X)) current = 1; // CD32
     if (!signalSNES(SNESPAD_Y)) current = 0; // Joystick
     if (!signalSNES(SNESPAD_A)) current = 2; // Amiga mouse
+    if (!signalSNES(SNESPAD_B)) current = 3; // Two ways joystick
   }
   if (old != current)
     eeprom_write_byte(&savedMode, current);
@@ -55,6 +57,8 @@ int main(void) {
         runCd32(); break;
       case 2:
         runMouse(); break;
+      case 3:
+        runTwoway(); break;
       case 0: default:
         runJoystick(); break;
     }
